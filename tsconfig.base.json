@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@speculo/engine": ["libs/engine/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
