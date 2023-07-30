@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-
 import { engine } from '@speculo/engine';
 
 export const App = () => {
-  useEffect(() => {
-    engine.screenShot('Test screenshot');
-  }, []);
-
-  return <div>Speculo Viewer</div>;
+  return (
+    <div>
+      <button onClick={() => engine.screenShot('Test screenshot')}>Download screenshot ebat`</button>
+    </div>
+  );
 };
