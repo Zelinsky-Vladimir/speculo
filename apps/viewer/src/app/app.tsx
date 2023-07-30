@@ -1,14 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
+import React, { useEffect } from 'react';
 
-import NxWelcome from './nx-welcome';
+import { engine } from '@speculo/engine';
 
-export function App() {
-  return (
-    <div>
-      <NxWelcome title="viewer" />
-    </div>
-  );
-}
+export const App = () => {
+  useEffect(() => {
+    engine.screenShot('Test screenshot');
+  }, []);
 
-export default App;
+  return <div>Speculo Viewer</div>;
+};

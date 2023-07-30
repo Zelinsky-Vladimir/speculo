@@ -2,7 +2,11 @@
   "name": "@speculo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "pnpm nx run-many --parallel=10 --target=serve --all",
+    "build": "pnpm nx run-many --parallel=10 --target=build --all",
+    "test": "pnpm nx run-many --parallel=10 --target=build --test"
+  },
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.0",
