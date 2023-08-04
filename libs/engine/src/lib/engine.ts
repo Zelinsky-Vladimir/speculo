@@ -1,51 +1,37 @@
 import html2canvas from 'html2canvas';
-import { download } from '@speculo/utils';
+import axios from 'axios';
 
-const getDefaultScreenShotMetadata = () => {
-  const now = new Date();
+const createScreenshot = async (name: string): Promise<File> => {
+  const rootElem = document.body;
+  const canvas = await html2canvas(rootElem);
+  const dataUrl = canvas.toDataURL('image/png');
 
-  return {
-    name: now.toISOString(),
-    date: now,
-  };
+  const blob = await fetch(dataUrl).then(res => res.blob());
+  const file = new File([blob], `${name}.png`, { type: 'image/png' });
+
+  return file;
 };
 
-type Metadata =
-  | string
-  | undefined
-  | {
-      name?: string;
-      date?: Date | string;
-    };
+const defaultOnSaveHandler = async (screenShot: Blob): Promise<void> => {
+  const form = new FormData();
+  form.append('file', screenShot);
 
-const makeScreenshot = async () => {
-  try {
-    const rootElem = document.body;
-    const canvas = await html2canvas(rootElem);
-    const base64image = canvas.toDataURL('image/png');
-
-    download(base64image, 'Screenshot sample.png');
-  } catch (err) {
-    console.log(err);
-  }
-
-  // const base64image = canvas.toDataURL('image/png');
-  // window.location.href = base64image;
+  axios.post('/api/screenshots', form);
 };
 
 export const engine = {
-  screenShot: (metadata?: Metadata) => {
-    const defaultMetadata = getDefaultScreenShotMetadata();
+  screenShot: async (
+    { onSave, name }: { onSave?: (screenShot: File) => Promise<void>; name: string } = {
+      name: new Date().toISOString(),
+    }
+  ) => {
+    try {
+      const screenShot = await createScreenshot(name);
+      const saveHandler = typeof onSave === 'function' ? onSave : defaultOnSaveHandler;
 
-    makeScreenshot();
-
-    if (typeof metadata === 'string') {
-      console.log({
-        ...defaultMetadata,
-        name: metadata,
-      });
-
-      return;
+      await saveHandler(screenShot);
+    } catch (err) {
+      console.log(err);
     }
   },
 };

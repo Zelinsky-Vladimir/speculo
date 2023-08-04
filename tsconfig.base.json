@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "module": "esnext",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -9,7 +10,6 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
-    "module": "esnext",
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -19,5 +19,6 @@
       "@speculo/utils": ["libs/utils/src/index.ts"]
     }
   },
+  "include": ["./custom.d.ts"],
   "exclude": ["node_modules", "tmp"]
 }

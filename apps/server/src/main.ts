@@ -1,28 +1,23 @@
-import Koa from 'koa';
-import Router from 'koa-router';
-import logger from 'koa-logger';
-import json from 'koa-json';
-import bodyParser from 'koa-bodyparser';
-
-const app = new Koa();
-const router = new Router();
+import Fastify from 'fastify';
+import { app } from './app/app';
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-router.get('/', async (ctx, next) => {
-  console.log('called');
-
-  await next();
+// Instantiate Fastify with some config
+const server = Fastify({
+  logger: true,
 });
 
-app.use(logger());
-app.use(json());
-app.use(bodyParser());
+// Register your application as a normal plugin.
+server.register(app);
 
-// Routes
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(port, host, () => {
-  console.log(`Listening on: http://${host}:${port}`);
+// Start listening.
+server.listen({ port, host }, err => {
+  if (err) {
+    server.log.error(err);
+    process.exit(1);
+  } else {
+    console.log(`[ ready ] http://${host}:${port}`);
+  }
 });
