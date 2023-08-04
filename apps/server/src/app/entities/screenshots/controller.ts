@@ -1,3 +1,4 @@
+import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 import { pipeline } from 'stream';
@@ -7,7 +8,13 @@ const pump = promisify(pipeline);
 
 class ScreenshotsService {
   async saveScreenshot({ file, filename }: { file: BusboyFileStream; filename: string }): Promise<void> {
-    await pump(file, fs.createWriteStream(`./${filename}`));
+    const uploadDirPath = path.join(process.cwd(), 'apps', 'server', 'uploads');
+
+    if (!fs.existsSync(uploadDirPath)) {
+      fs.mkdirSync(uploadDirPath);
+    }
+
+    await pump(file, fs.createWriteStream(path.join(uploadDirPath, filename)));
   }
 }
 
