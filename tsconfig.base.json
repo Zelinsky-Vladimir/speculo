@@ -19,6 +19,5 @@
       "@speculo/utils": ["libs/utils/src/index.ts"]
     }
   },
-  "include": ["./custom.d.ts"],
   "exclude": ["node_modules", "tmp"]
 }

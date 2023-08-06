@@ -6,10 +6,10 @@ import { BusboyFileStream } from '@fastify/busboy';
 
 const pump = promisify(pipeline);
 
+const uploadDirPath = path.join(process.cwd(), 'apps', 'server', 'uploads');
+
 class ScreenshotsService {
   async saveScreenshot({ file, filename }: { file: BusboyFileStream; filename: string }): Promise<void> {
-    const uploadDirPath = path.join(process.cwd(), 'apps', 'server', 'uploads');
-
     if (!fs.existsSync(uploadDirPath)) {
       fs.mkdirSync(uploadDirPath);
     }

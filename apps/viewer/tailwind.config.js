@@ -8,7 +8,21 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#4F46E5',
+      },
+      animation: {
+        'slow-spin': 'slow-spin 2s linear infinite',
+      },
+      keyframes: {
+        'slow-spin': {
+          from: {
+            transform: 'rotate(-360deg)',
+          },
+        },
+      },
+    },
   },
   plugins: [],
 };
